@@ -1,0 +1,1137 @@
+swagger: '2.0'
+info:
+  description: Tourest Admin API Definition.
+  version: 1.0.0
+  title: Tourest API
+  contact:
+    email: sargsyan.artur92@gmail.com
+host: localhost:3020
+basePath: /api/v1
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+tags:
+  - name: users
+    description: users API
+  - name: tours
+    description: tours API
+  - name: categories
+    description: categories API
+  - name: blogs
+    description: blogs API
+  - name: reviews
+    description: reviews API
+  - name: orders
+    description: orders API
+
+securityDefinitions:
+  oAuth2Security:
+    type: "oauth2"
+    tokenUrl: "http://localhost:3020/api/v1/oauth2/token"
+    flow: "password"
+    scopes:
+      access:member: Member access to the API
+      access:admin: Admin access to the API
+      
+paths:
+  '/blogs':
+    post:
+      summary: add a blog
+      description: Add a blog. 
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - blogs
+      operationId: addBlog
+      parameters:
+        - name: blog
+          in: body
+          schema:
+            $ref: '#/definitions/AddBlogPayload'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: The new blog.
+          schema:
+            $ref: '#/definitions/Blog'
+    get:
+      summary: get blogs 
+      description: Get blogs.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - blogs
+      operationId: getBlogs
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: The blogs list.
+          schema:
+            $ref: '#/definitions/BlogList'
+    
+  '/blogs/{id}':
+    get:
+      summary: get blog by id
+      description: Get blog by id.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - blogs
+      operationId: getBlog
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The blog.
+          schema:
+            $ref: '#/definitions/Blog'
+
+    put:
+      summary: update blog
+      description: update blog by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - blogs
+      operationId: updateBlogById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: user
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateBlogPayload'
+      responses:
+        '204':
+          description: The blog.
+          schema:
+            $ref: '#/definitions/Blog'
+
+    delete:
+      summary: delete blog
+      description: delete blog by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - blogs
+      operationId: deleteBlogById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Empty response.
+
+
+  '/reviews':
+    post:
+      summary: add a review
+      description: Add a review. 
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - reviews
+      operationId: addReview
+      parameters:
+        - name: review
+          in: body
+          schema:
+            $ref: '#/definitions/AddReviewPayload'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: The new review.
+          schema:
+            $ref: '#/definitions/Review'
+    get:
+      summary: get review 
+      description: Get review.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - review
+      operationId: getReviews
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: The review list.
+          schema:
+            $ref: '#/definitions/ReviewList'
+    
+  '/review/{id}':
+    put:
+      summary: update review
+      description: update review by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - review
+      operationId: updateReviewById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: user
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateReviewPayload'
+      responses:
+        '204':
+          description: The review.
+          schema:
+            $ref: '#/definitions/Review'
+
+    delete:
+      summary: delete review
+      description: delete review by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - review
+      operationId: deleteReviewById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Empty response.
+
+  '/categories':
+    post:
+      summary: add a category
+      description: Add a category. 
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - categories 
+      operationId: addCategory
+      parameters:
+        - name: category
+          in: body
+          schema:
+            $ref: '#/definitions/AddCategoryPayload'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: The new category.
+          schema:
+            $ref: '#/definitions/Category'
+    get:
+      summary: get categories 
+      description: Get categories.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - categories 
+      operationId: getCategories
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: The categories list.
+          schema:
+            $ref: '#/definitions/CategoryList'
+    
+  '/categories/{id}':
+    get:
+      summary: get category by id
+      description: Get category by id.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - categories
+      operationId: getCategory
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The category.
+          schema:
+            $ref: '#/definitions/Category'
+
+    put:
+      summary: update category
+      description: update category by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - categories
+      operationId: updateCategoryById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: user
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateCategoryPayload'
+      responses:
+        '204':
+          description: The category.
+          schema:
+            $ref: '#/definitions/Category'
+
+    delete:
+      summary: delete category
+      description: delete category by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - categoris
+      operationId: deleteCategoryById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Empty response.
+
+
+  '/tours':
+    post:
+      summary: add a tour
+      description: Add a tour. 
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - tours
+      operationId: addTour
+      parameters:
+        - name: tour
+          in: body
+          schema:
+            $ref: '#/definitions/AddTourPayload'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: The new tour.
+          schema:
+            $ref: '#/definitions/Tour'
+    get:
+      summary: get tours 
+      description: Get tours.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - tours
+      operationId: getTours
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: The tours list.
+          schema:
+            $ref: '#/definitions/ToursList'
+    
+  '/tours/{id}':
+    get:
+      summary: get tour by id
+      description: Get tour by id.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - tours
+      operationId: getTour
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The tour.
+          schema:
+            $ref: '#/definitions/Tour'
+
+    put:
+      summary: update tour
+      description: update tour by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - tours
+      operationId: updateTourById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: user
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateTourPayload'
+      responses:
+        '204':
+          description: The tour.
+          schema:
+            $ref: '#/definitions/Tour'
+
+    delete:
+      summary: delete tour
+      description: delete tour by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - tours
+      operationId: deleteTourById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Empty response.
+
+  '/users':
+    post:
+      summary: register a user
+      description: register a new user.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - users
+      operationId: addUser
+      parameters:
+        - name: user
+          in: body
+          schema:
+            $ref: '#/definitions/AddUserPayload'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: The registered new user.
+          schema:
+            $ref: '#/definitions/User'
+    get:
+      summary: get users list
+      description: get users list.
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - users
+      operationId: getUsersList
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: The users list.
+          schema:
+            $ref: '#/definitions/UsersList'
+    
+  '/users/{id}':
+    get:
+      summary: get user by id
+      description: Get user by id.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - users
+      operationId: getUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The user.
+          schema:
+            $ref: '#/definitions/User'
+
+    put:
+      summary: update user
+      description: update user by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - users
+      operationId: updateUserById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: user
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateUserPayload'
+      responses:
+        '204':
+          description: The user.
+          schema:
+            $ref: '#/definitions/User'
+
+    delete:
+      summary: delete user
+      description: delete user by id
+      security:
+        - oAuth2Security:
+          - access:admin
+      tags:
+        - users
+      operationId: deleteUserById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Empty response.
+
+  '/users/current':
+    get:
+      summary: get current user
+      description: Get current user. 
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - users
+      operationId: getCurrentUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: The user.
+          schema:
+            $ref: '#/definitions/User'
+
+    put:
+      summary: update current user
+      description: Update current user.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - users
+      operationId: updateCurrentUser
+      parameters:
+        - name: user
+          in: body
+          schema:
+            $ref: '#/definitions/UpdateUserPayload'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: The updated user.
+          schema:
+            $ref: '#/definitions/User'
+
+    delete:
+      summary: delete current user
+      description: Delete current user.
+      security:
+        - oAuth2Security:
+          - access:member
+      tags:
+        - users
+      operationId: deleteCurrentUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '204':
+          description: Empty response.
+
+definitions:
+  UpdateUserPayload:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      birthday:
+        type: string
+        format: date-time
+      profilePictureUrl:
+        type: string
+
+  AddUserPayload:
+    type: object
+    required:
+      - email
+      - firstName
+      - lastName
+      - birthday
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      birthday:
+        type: string
+        format: date-time
+      profilePictureUrl:
+        type: string
+
+  UpdateCategoryPayload:
+    type: object
+    properties:
+      en_name:
+        type: string
+      ru_name:
+        type: string
+      url:
+        type: string
+      city:
+        type: string
+
+  AddCategoryPayload:
+    type: object
+    required:
+      - en_name
+      - ru_name
+      - url
+      - city
+    properties:
+      en_name:
+        type: string
+      ru_name:
+        type: string
+      url:
+        type: string
+      city:
+        type: string
+
+  Category:
+    type: object
+    properties:
+      en_name:
+        type: string
+      ru_name:
+        type: string
+      url:
+        type: string
+      city:
+        type: string
+      id:
+        type: string
+        readOnly: true
+
+  CategoryList:
+    type: array
+    items:
+      $ref: '#/definitions/Category'
+
+  ToursList:
+    type: array
+    items:
+      $ref: '#/definitions/Tour'
+
+  Tour:
+    type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+      en_name:
+        type: string
+      ru_name:
+        type: string
+      images:
+        type: array
+        items:
+          type: string
+      startDateAndTime:
+        type: string
+        format: date-time
+      hasGuide:
+        type: boolean
+      duration:
+        type: number
+      languages:
+        type: array
+        items:
+          type: string
+      en_highlights:
+        type: array
+        items:
+          type: string
+      ru_highlights:
+        type: array
+        items:
+          type: string
+      en_fullDescription:
+        type: string
+      ru_fullDescription:
+        type: string
+      en_includes:
+        type: array
+        items:
+          type: string
+      ru_includes:
+        type: array
+        items:
+          type: string
+      en_notSuitable:
+        type: array
+        items:
+          type: string
+      ru_notSuitable:
+        type: array
+        items:
+          type: string
+      en_needed:
+        type: array
+        items:
+          type: string
+      ru_needed:
+        type: array
+        items:
+          type: string
+      pricetForAdults:
+        type: number
+      pricetForChildren:
+        type: number
+      availableDates:
+        type: array
+        items:
+          type: string
+          format: date-time
+      rate:
+        type: number
+      city:
+        type: string
+      category:
+        $ref: '#/definitions/Category'
+      manager:
+        $ref: '#/definitions/User'
+
+  AddTourPayload:
+    type: object
+    required:
+      - en_name
+      - ru_name
+      - images
+      - startDateAndTime
+      - hasGuide
+      - duration
+      - languages
+      - en_highlights
+      - ru_highlights
+      - en_fullDescription
+      - ru_fullDescription
+      - en_includes
+      - ru_includes
+      - en_notSuitable
+      - ru_notSuitable
+      - en_needed
+      - ru_needed
+      - pricetForAdults
+      - pricetForChildren
+      - availableDates
+      - city
+      - categoryId
+      - managerId
+    properties:
+      en_name:
+        type: string
+      ru_name:
+        type: string
+      images:
+        type: array
+        items:
+          type: string
+      startDateAndTime:
+        type: string
+        format: date-time
+      hasGuide:
+        type: boolean
+      duration:
+        type: number
+      languages:
+        type: array
+        items:
+          type: string
+      en_highlights:
+        type: array
+        items:
+          type: string
+      ru_highlights:
+        type: array
+        items:
+          type: string
+      en_fullDescription:
+        type: string
+      ru_fullDescription:
+        type: string
+      en_includes:
+        type: array
+        items:
+          type: string
+      ru_includes:
+        type: array
+        items:
+          type: string
+      en_notSuitable:
+        type: array
+        items:
+          type: string
+      ru_notSuitable:
+        type: array
+        items:
+          type: string
+      en_needed:
+        type: array
+        items:
+          type: string
+      ru_needed:
+        type: array
+        items:
+          type: string
+      pricetForAdults:
+        type: number
+      pricetForChildren:
+        type: number
+      availableDates:
+        type: array
+        items:
+          type: string
+          format: date-time
+      rate:
+        type: number
+      city:
+        type: string
+      categoryId:
+        type: string
+      managerId:
+        type: string
+        
+  UpdateTourPayload:
+    type: object
+    properties:
+      en_name:
+        type: string
+      ru_name:
+        type: string
+      images:
+        type: array
+        items:
+          type: string
+      startDateAndTime:
+        type: string
+        format: date-time
+      hasGuide:
+        type: boolean
+      duration:
+        type: number
+      languages:
+        type: array
+        items:
+          type: string
+      en_highlights:
+        type: array
+        items:
+          type: string
+      ru_highlights:
+        type: array
+        items:
+          type: string
+      en_fullDescription:
+        type: string
+      ru_fullDescription:
+        type: string
+      en_includes:
+        type: array
+        items:
+          type: string
+      ru_includes:
+        type: array
+        items:
+          type: string
+      en_notSuitable:
+        type: array
+        items:
+          type: string
+      ru_notSuitable:
+        type: array
+        items:
+          type: string
+      en_needed:
+        type: array
+        items:
+          type: string
+      ru_needed:
+        type: array
+        items:
+          type: string
+      pricetForAdults:
+        type: number
+      pricetForChildren:
+        type: number
+      availableDates:
+        type: array
+        items:
+          type: string
+          format: date-time
+      rate:
+        type: number
+      city:
+        type: string
+      categoryId:
+        type: string
+      managerId:
+        type: string
+        
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      birthday:
+        type: string
+        format: date-time
+      profilePictureUrl:
+        type: string
+
+  AddReviewPayload:
+    type: object
+    required:
+      - tourId
+      - rate
+      - comment
+    properties:
+      tourId:
+        type: string
+      rate:
+        type: number
+      comment:
+        type: string
+
+  UpdateReviewPayload:
+    type: object
+    properties:
+      comment:
+        type: string
+      rate:
+        type: number
+
+  Review:
+    type: object
+    properties:
+      id:
+        type: string
+      user:
+        $ref: '#/definitions/User'
+      tour:
+        $ref: '#/definitions/Tour'
+      comment:
+        type: string
+      rate:
+        type: number
+
+  ReviewList:
+    type: array
+    items:
+      $ref: '#/definitions/Review'
+
+  AddBlogPayload:
+    type: object
+    required:
+      - urls
+      - en_title
+      - ru_title
+      - en_description
+      - ru_description
+    properties:
+      urls:
+        type: array
+        items:
+          type: string
+      en_title:
+        type: string
+      ru_title:
+        type: string
+      en_description:
+        type: string
+      ru_description:
+        type: string
+  
+  UpdateBlogPayload:
+    type: object
+    properties:
+      urls:
+        type: array
+        items:
+          type: string
+      en_title:
+        type: string
+      ru_title:
+        type: string
+      en_description:
+        type: string
+      ru_description:
+        type: string
+
+  BlogList:
+    type: array
+    items:
+      $ref: '#/definitions/Blog'
+
+  Blog:
+    type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+      urls:
+        type: array
+        items:
+          type: string
+      en_title:
+        type: string
+      ru_title:
+        type: string
+      en_description:
+        type: string
+      ru_description:
+        type: string
+
+  UsersList:
+    type: array
+    items:
+      $ref: '#/definitions/User'
+
