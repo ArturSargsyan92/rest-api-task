@@ -1,14 +1,22 @@
 // NPM Modules
 const { Model } = require('objection')
 
-// Local Modules
-const { OAuth2ClientsSchema } = require('./schema')
-
 class OAuth2ClientsModel extends Model {
   // Props
   static get idColumn () { return 'id' }
   static get tableName () { return 'oauth2-clients' }
-  static get jsonSchema () { return OAuth2ClientsSchema }
+  static get jsonSchema () {
+    return {
+      type: 'object',
+      required: ['clientId', 'clientSecret', 'grants'],
+      properties: {
+        clientId: { type: 'string', maxLength: 45 },
+        clientSecret: { type: 'string', maxLength: 45 },
+        grants: { type: 'string', enum: ['password'] }
+      }
+
+    }
+  }
 
   static mapForOAuth2 (data) {
     const { grants, clientId, clientSecret } = data

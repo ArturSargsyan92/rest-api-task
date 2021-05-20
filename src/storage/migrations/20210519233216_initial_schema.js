@@ -28,6 +28,15 @@ exports.up = (knex) => {
         .index()
       table.datetime('updatedAt')
     })
+    .createTable('medias', (table) => {
+      table.increments('id').primary()
+      table.string('url')
+      table.integer('articleId')
+        .unsigned()
+        .references('id')
+        .inTable('articles')
+        .index()
+    })
     .createTable('oauth2-clients', (table) => {
       table.increments('id').primary()
       table.string('clientId').notNullable()

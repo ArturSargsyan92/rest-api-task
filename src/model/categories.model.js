@@ -1,13 +1,20 @@
 // NPM Modules
 const { Model } = require('objection')
 
-// Local Modules
-const { CategoriesSchema } = require('./schema')
-
 class CategoriesModel extends Model {
   static get idColumn () { return 'id' }
   static get tableName () { return 'categories' }
-  static get jsonSchema () { return CategoriesSchema }
+  static get jsonSchema () {
+    return {
+      type: 'object',
+      required: ['name'],
+      properties: {
+        id: { type: 'integer' },
+        name: { type: 'string', minLength: 1, maxLength: 255 },
+        description: { type: 'string', minLength: 1, maxLength: 2000 }
+      }
+    }
+  }
 
   // Methods
   static async create (payload) {

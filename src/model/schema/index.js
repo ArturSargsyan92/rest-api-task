@@ -1,5 +1,0 @@
-module.exports.UsersSchema = require('./users.schema')
-module.exports.CategoriesSchema = require('./categories.schema')
-module.exports.ArticlesSchema = require('./articles.schema')
-module.exports.OAuth2AccessTokensSchema = require('./oauth2-access-tokens.schema')
-module.exports.OAuth2ClientsSchema = require('./oauth2-clients.schema')

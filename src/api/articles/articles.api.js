@@ -15,4 +15,12 @@ router.post('/',
   ArticlesValidationMiddleware.validateAddArticleArgs,
   ArticlesService.addArticle)
 
+router.get('/',
+  OAuth2.authenticate,
+  ArticlesService.getAll)
+
+router.get('/:id',
+  OAuth2.authenticate,
+  ArticlesService.getArticle)
+
 module.exports = router
