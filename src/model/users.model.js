@@ -33,6 +33,10 @@ class UsersModel extends Model {
   static async getByUsername (login) {
     return UsersModel.query().findOne({ login })
   }
+
+  static async getMembers () {
+    return UsersModel.query().where({ role: 'member' })
+  }
 }
 
 module.exports = UsersModel
