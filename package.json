@@ -9,7 +9,7 @@
         "lint-no-fix": "eslint ./src",
         "migrate": "knex migrate:latest --knexfile src/storage/knex.configs.js",
         "migrate-down": "knex migrate:down --knexfile src/storage/knex.configs.js",
-        "seed": "node src/storage/seed.js",
+        "seeding": "node src/storage/seed.js",
         "lint": "eslint --fix ./src",
         "test-integration-api": "jest --runInBand --silent --env=node ./integration/api"
     },
